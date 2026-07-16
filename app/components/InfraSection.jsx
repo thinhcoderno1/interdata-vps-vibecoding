@@ -15,7 +15,7 @@ export default function InfraSection() {
       <div className="container">
         <div className="infra-head">
           <span className="eyebrow on-light">Công nghệ</span>
-          <h2 className="section-title">Nền tảng hạ tầng cho dịch vụ VPS Vibe Coding</h2>
+          <h2 className="section-title">Nền tảng hạ tầng cho dịch vụ <br></br><span>VPS Vibe Coding</span></h2>
         </div>
         <div className="infra-grid">
           {infraSpecs.map((spec) => (

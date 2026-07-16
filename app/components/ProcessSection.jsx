@@ -3,7 +3,10 @@ import { steps } from './data';
 function OsPicker({ template }) {
   return (
     <div className="ps-picker" aria-hidden="true">
-      <span className="ps-picker-label">OS Template</span>
+      <div className="ps-picker-head">
+        <span className="ps-picker-label">OS Template</span>
+        <b>Required</b>
+      </div>
       <div className="ps-picker-field">
         <span>{template}</span>
         <svg viewBox="0 0 24 24">
@@ -68,27 +71,56 @@ function ProcessArt() {
 export default function ProcessSection() {
   return (
     <section className="section section-soft ps-section">
-      <div className="container">
+      <div className="ps-pattern" aria-hidden="true" />
+      <div className="container ps-container">
         <div className="ps-head">
           <span className="eyebrow on-light">Cách thiết lập</span>
-          <h2 className="section-title">Chỉ vài bước từ đăng ký đến bắt đầu vibe coding</h2>
+          <h2 className="section-title">Chỉ vài bước từ đăng ký đến bắt đầu <span>Vibe Code</span></h2>
         </div>
 
         <div className="ps-layout">
           <ol className="ps-timeline">
             {steps.map((step, index) => (
-              <li className="ps-step" key={step.title}>
-                <div className="ps-marker">{index + 1}</div>
-                <div className="ps-body">
-                  <h3>{step.title}</h3>
-                  <p>{step.desc}</p>
-                  {step.template && <OsPicker template={step.template} />}
-                  {step.note && <p className="ps-note">{step.note}</p>}
+              <li className={`ps-step ${step.template ? 'is-key-step' : ''} ${index === steps.length - 1 ? 'is-final' : ''}`} key={step.title}>
+                <div className="ps-marker">
+                  <span>{index + 1}</span>
                 </div>
+                <details className="ps-body">
+                  <summary className="ps-step-summary">
+                    <span>
+                      <span className="ps-step-code">Step 0{index + 1}</span>
+                      <h3>{step.title}</h3>
+                    </span>
+                    <span className="ps-step-chevron" aria-hidden="true">
+                      <svg viewBox="0 0 24 24"><path d="m7 10 5 5 5-5" /></svg>
+                    </span>
+                  </summary>
+                  <div className="ps-step-detail">
+                    <p>{step.desc}</p>
+                    {step.template && <OsPicker template={step.template} />}
+                    {step.note && <p className="ps-note">{step.note}</p>}
+                  </div>
+                </details>
               </li>
             ))}
           </ol>
-          <ProcessArt />
+          <div className="ps-visual">
+            <span className="ps-visual-layer ps-visual-layer-one" aria-hidden="true" />
+            <span className="ps-visual-layer ps-visual-layer-two" aria-hidden="true" />
+            <div className="ps-visual-bar">
+              <span><i /><i /><i /></span>
+              <b>VPS Setup Progress</b>
+              <em><i /> Provisioning complete</em>
+            </div>
+            <div className="ps-visual-body">
+              <ProcessArt />
+            </div>
+            <div className="ps-visual-foot">
+              <span><i /> OS installed</span>
+              <span><i /> EzyPlatform ready</span>
+              <span><i /> Access delivered</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { noCodeUseCases, techUseCases } from './data';
 
 const tabs = [
-  { id: 'nocode', label: 'Nếu bạn chưa biết code', items: noCodeUseCases },
+  { id: 'nocode', label: 'Nếu bạn low-code', items: noCodeUseCases },
   { id: 'tech', label: 'Nếu bạn là dân kỹ thuật', items: techUseCases },
 ];
 
@@ -49,8 +49,9 @@ export default function UseCasesSection() {
   const active = tab.items[index];
 
   return (
-    <section id="lamduoc" className="section">
-      <div className="container center">
+    <section id="lamduoc" className="section uc-section">
+      <div className="uc-pattern" aria-hidden="true" />
+      <div className="container center uc-container">
         <h2 className="section-title">Chúng ta có thể vibe code gì?</h2>
         <div className="tabs" role="tablist" aria-label="Nhóm người dùng">
           {tabs.map((item) => (
@@ -69,7 +70,7 @@ export default function UseCasesSection() {
           ))}
         </div>
 
-        <div className="uc-showcase">
+        <div className="uc-showcase" style={{ '--active-tint': active.tint }}>
           <ul className="uc-list">
             {tab.items.map((useCase, i) => (
               <li key={useCase.title}>
@@ -92,11 +93,16 @@ export default function UseCasesSection() {
           </ul>
 
           <figure className="uc-stage">
+            <span className="uc-stage-layer uc-stage-layer-one" aria-hidden="true" />
+            <span className="uc-stage-layer uc-stage-layer-two" aria-hidden="true" />
             <div className="window-bar">
               <i /><i /><i />
               <span>{active.title}</span>
+              <b className="uc-live"><i /> Live preview</b>
             </div>
-            <Mockup key={active.title} src={active.image} alt={active.alt} title={active.title} />
+            <div className="uc-page" key={`${tabId}-${active.title}`}>
+              <Mockup src={active.image} alt={active.alt} title={active.title} />
+            </div>
           </figure>
         </div>
 

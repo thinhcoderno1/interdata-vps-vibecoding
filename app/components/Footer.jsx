@@ -23,12 +23,12 @@ const footerColumns = [
   {
     title: 'Quy định và Chính sách',
     links: [
-      ['Chính sách bảo hành', 'https://interdata.vn/chinh-sach-bao-hanh'],
+      ['Chính sách bảo hành', 'https://interdata.vn/chinh-sach-bao-hanh', false],
       ['Chính sách bảo mật', 'https://interdata.vn/privacy-policy'],
       ['Chính sách xử lý khiếu nại', 'https://interdata.vn/chinh-sach-xu-ly-khieu-nai'],
       ['Cam kết dịch vụ', 'https://interdata.vn/service-level-agreement'],
       ['Điều khoản sử dụng dịch vụ', 'https://interdata.vn/terms-and-condition'],
-      ['GDPR', 'https://interdata.vn/gdpr'],
+      ['GDPR', 'https://interdata.vn/gdpr', false],
       ['Hình thức thanh toán', 'https://interdata.vn/hinh-thuc-thanh-toan'],
       ['Hướng dẫn thanh toán trên VNPAY', 'https://interdata.vn/huong-dan-thanh-toan-vnpay'],
       ['Quy định đổi trả và hoàn trả tiền', 'https://interdata.vn/refund-policy'],
@@ -64,13 +64,13 @@ export default function Footer() {
         {footerColumns.map((column) => (
           <nav className="footer-column" key={column.title} aria-label={column.title}>
             <h3>{column.title}</h3>
-            {column.links.map(([label, href]) => (
-              <a href={href} key={href}>{label}</a>
+            {column.links.map(([label, href, isVisible = true]) => (
+              isVisible && <a href={href} key={href}>{label}</a>
             ))}
           </nav>
         ))}
       </div>
-      <div className="footer-container copyright">© 2026 InterData x EzyPlatform.</div>
+      <div className="footer-container copyright">© 2026 Công ty Cổ phần Inter Group. All rights reserved.</div>
     </footer>
   );
 }

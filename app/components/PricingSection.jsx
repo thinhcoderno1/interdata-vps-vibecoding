@@ -1,27 +1,39 @@
-import { plans } from './data';
+import { getCloudPlans } from '../lib/cloudPlans';
 
-export default function PricingSection() {
+export default async function PricingSection() {
+  const { plans } = await getCloudPlans();
+
   return (
-    <section id="gia" className="section section-soft">
+    <section id="gia" className="section section-soft pricing-section">
       <div className="container center">
-        <h2 className="section-title">Chọn gói vừa với bạn - nâng cấp bất cứ lúc nào.</h2>
+        <span className="eyebrow on-light">PRICE TABLE</span>
+        <h2 className="section-title">Bảng Giá VPS Vibe Coding</h2>
+        <p className="pricing-lead">
+         Cấu hình được lựa chọn tối ưu cho nhu cầu vibe coding
+        </p>
         <div className="pricing-grid">
-          {plans.map((plan) => (
-            <article className={`price-card ${plan.popular ? 'popular' : ''}`} key={plan.name}>
-              {plan.popular && <span className="badge">Phổ biến nhất</span>}
+          {plans.map((plan, index) => (
+            <article className={`price-card ${index === 1 ? 'popular' : ''}`} key={plan.id}>
+              {index === 1 && <span className="badge">Cấu hình cân bằng</span>}
               <h3>{plan.name}</h3>
-              <strong>{plan.specs}</strong>
-              <p>{plan.fit}</p>
-              <div className="price">[InterData điền] <small>/tháng</small></div>
-              <a className={`btn ${plan.popular ? 'primary' : 'secondary'}`} href="#dangky">Dùng thử gói này</a>
+              <ul className="price-specs">
+                {plan.specs.map((spec) => <li key={spec}>{spec}</li>)}
+              </ul>
+              <div className="price">
+                <strong>{plan.price}</strong>
+                <small>/ {plan.billingCycle}</small>
+              </div>
+              <a
+                className={`btn ${index === 1 ? 'primary' : 'secondary'}`}
+                href={plan.orderUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Đăng ký ngay
+              </a>
             </article>
           ))}
         </div>
-        <div className="included">
-          <strong>Mọi gói đều có</strong>
-          <span>Tự cài EzyPlatform</span><span>Domain trỏ sẵn</span><span>IPv4 riêng</span><span>Backup định kỳ</span><span>Anti-DDoS</span><span>Full root access</span><span>Hỗ trợ 24/7</span><span>Dùng thử 7 ngày</span>
-        </div>
-        <p className="notice"><strong>[InterData điền chính sách giá]</strong> - nên ghi rõ giá niêm yết, giá ưu đãi và giá sau ưu đãi, không phí ẩn.</p>
       </div>
     </section>
   );

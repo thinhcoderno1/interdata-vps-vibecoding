@@ -64,9 +64,8 @@ export default function WhyInterDataSection() {
         <div className="why-grid">
           <div className="why-intro">
             <span className="eyebrow on-light">Lợi ích</span>
-            <h2 className="section-title left">Vì sao nên thuê VPS Vibe Coding tại InterData?</h2>
-            <p className="lead why-lead">Hạ tầng mạnh mới là một nửa. Nửa còn lại là người vận hành nó cho bạn, mỗi ngày, kể cả lúc bạn đang ngủ.</p>
-            <a className="btn primary" href="#gia">Xem bảng giá</a>
+            <h2 className="section-title left">Vì sao nên thuê VPS Vibe Coding Tại InterData?</h2>
+            {/* <p className="lead why-lead">Hạ tầng mạnh mới là một nửa. Nửa còn lại là người vận hành nó cho bạn, mỗi ngày, kể cả lúc bạn đang ngủ.</p> */}
             <WhyArt />
           </div>
           <ul className="why-list">

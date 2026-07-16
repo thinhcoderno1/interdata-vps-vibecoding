@@ -15,11 +15,15 @@ import UseCasesSection from './components/UseCasesSection';
 import VibeIntro from './components/VibeIntro';
 import WhyInterDataSection from './components/WhyInterDataSection';
 
+const SHOW_TRIAL_SECTION = false;
+const SHOW_CTA_SECTION = false;
+
 export default function Page() {
   return (
     <main>
       <Header />
       <Hero />
+      <PricingSection />
       <VibeIntro />
       <EzyPlatformSection />
       <InfraSection />
@@ -27,11 +31,10 @@ export default function Page() {
       <UseCasesSection />
       <ProcessSection />
       <RolesSection />
-      <PricingSection />
-      <TrialSection />
+      {SHOW_TRIAL_SECTION && <TrialSection />}
       <SocialProofSection />
       <FAQSection />
-      <CTASection />
+      {SHOW_CTA_SECTION && <CTASection />}
       <Footer />
       <MobileCTA />
     </main>

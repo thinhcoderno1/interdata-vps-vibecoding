@@ -4,3 +4,6 @@ out/
 dist/
 .env*.local
 yarn-error.log
+.claude/
+.codex/
+.agents/
