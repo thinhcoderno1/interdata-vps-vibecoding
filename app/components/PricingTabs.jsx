@@ -39,7 +39,7 @@ export default function PricingTabs({ plans }) {
       <div className="pricing-grid" role="tabpanel">
         {plans.map((plan, index) => (
           <article className={`price-card ${index === 1 ? 'popular' : ''}`} key={plan.id}>
-            {index === 1 && <span className="badge">Cấu hình cân bằng</span>}
+            {index === 1 && <span className="badge">Gói phổ biến</span>}
             <h3>{plan.name}</h3>
             <ul className="price-specs">
               {plan.specs.map((spec) => <li key={spec}>{spec}</li>)}
