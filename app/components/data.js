@@ -5,7 +5,7 @@ export const steps = [
   },
   {
     title: 'Chọn đúng OS template',
-    desc: 'Lúc khởi tạo máy, chọn template Ubuntu-22.04-EzyPlatform. Hệ thống sẽ tự cài EzyPlatform và cấp domain trỏ sẵn, bạn không phải đụng vào phần kỹ thuật nào khác.',
+    desc: 'Lúc khởi tạo máy, chọn template Ubuntu-22.04-EzyPlatform. Hệ thống sẽ tự cài EzyPlatform và cấp subdomain trỏ sẵn, bạn không phải đụng vào phần kỹ thuật nào khác.',
     template: 'Ubuntu-22.04-EzyPlatform',
     note: 'Đây là bước duy nhất bạn cần để tâm. Chọn template khác thì máy sẽ không có sẵn EzyPlatform.',
   },
