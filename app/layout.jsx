@@ -76,12 +76,12 @@ export const metadata = {
     apple: faviconUrl,
   },
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
     nocache: false,
     googleBot: {
-      index: true,
-      follow: true,
+      index: false,
+      follow: false,
       noimageindex: false,
       'max-image-preview': 'large',
       'max-snippet': -1,
