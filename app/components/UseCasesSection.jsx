@@ -52,7 +52,8 @@ export default function UseCasesSection() {
     <section id="lamduoc" className="section uc-section">
       <div className="uc-pattern" aria-hidden="true" />
       <div className="container center uc-container">
-        <h2 className="section-title">Chúng ta có thể vibe code gì?</h2>
+        <span className="eyebrow on-light uc-production-badge">Production</span>
+        <h2 className="section-title">Chúng ta có thể Vibe Code gì?</h2>
         <div className="tabs" role="tablist" aria-label="Nhóm người dùng">
           {tabs.map((item) => (
             <button

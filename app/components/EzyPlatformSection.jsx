@@ -37,7 +37,10 @@ export default function EzyPlatformSection() {
         <div className="ezy-workspace">
           <div className="ezy-windowbar">
             <div className="ezy-window-dots" aria-hidden="true"><i /><i /><i /></div>
-            <div className="ezy-window-title"><span>E</span> ezyplatform / production</div>
+            <div className="ezy-window-title">
+              <img src="/images/ezyplatform-logo.png" alt="EzyPlatform" />
+              <span>EzyPlatform</span>
+            </div>
             <div className="ezy-system-state"><i /> System ready</div>
           </div>
 

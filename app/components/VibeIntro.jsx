@@ -33,7 +33,7 @@ const steps = [
 ];
 
 const thenPoints = ['Học lập trình hàng tháng trời', 'Thuê dev tốn kém', 'Sửa gì cũng phải nhờ người khác'];
-const nowPoints = ['Tự mô tả bằng tiếng Việt', 'Thấy kết quả ngay lập tức', 'Tự đổi bất cứ lúc nào'];
+const nowPoints = ['Tự mô tả bằng tiếng Việt', 'Thấy kết quả ngay lập tức', 'Tùy chỉnh bất cứ lúc nào'];
 
 export default function VibeIntro() {
   return (

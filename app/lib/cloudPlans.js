@@ -1,31 +1,43 @@
-const CLOUD_PLANS_URL =
-  'https://support.interdata.vn/index.php?rp=/store/best-plan-real-cloud';
+const CLOUD_PLANS_API_URL =
+  'https://support.interdata.vn/packages.php?gid=98&module';
 const SUPPORT_ORIGIN = 'https://support.interdata.vn';
 
 const fallbackPlans = [
   {
-    id: '521',
-    name: 'BD-Cloud 1',
-    price: '988.000 đ',
-    billingCycle: '1 năm',
-    specs: ['3 vCore', '3 GB RAM', '30 GB SSD NVMe', '1 IPv4 Private', '300 Mbps Network Port', 'Unlimited Bandwidth'],
-    orderUrl: `${SUPPORT_ORIGIN}/index.php?rp=/store/best-plan-real-cloud/bd-cloud-1`,
+    id: '525',
+    name: 'Vibe Basic',
+    prices: {
+      monthly: '277.000 đ',
+      quarterly: '747.900 đ',
+      annually: '997.200 đ',
+      biennially: '1.794.960 đ',
+      triennially: '2.393.280 đ',
+    },
+    specs: ['2 vCore', '4 GB RAM', '30 GB SSD NVMe', '1 IPv4 Private', '300Mbps Network Port', 'Unlimited Bandwidth'],
   },
   {
-    id: '522',
-    name: 'BD-Cloud 2',
-    price: '2.988.000 đ',
-    billingCycle: '1 năm',
-    specs: ['4 vCore', '8 GB RAM', '80 GB SSD NVMe', '1 IPv4 Private', '300 Mbps Network Port', 'Unlimited Bandwidth'],
-    orderUrl: `${SUPPORT_ORIGIN}/index.php?rp=/store/best-plan-real-cloud/bd-cloud-2`,
+    id: '526',
+    name: 'Vibe Standard',
+    prices: {
+      monthly: '370.000 đ',
+      quarterly: '999.000 đ',
+      annually: '1.332.000 đ',
+      biennially: '2.397.600 đ',
+      triennially: '3.196.800 đ',
+    },
+    specs: ['3 vCore', '6 GB RAM', '30 GB SSD NVMe', '1 IPv4 Private', '300Mbps Network Port', 'Unlimited Bandwidth'],
   },
   {
-    id: '523',
-    name: 'BD-Cloud 3',
-    price: '5.999.000 đ',
-    billingCycle: '1 năm',
-    specs: ['8 vCore', '16 GB RAM', '140 GB SSD NVMe', '1 IPv4 Private', '400 Mbps Network Port', 'Unlimited Bandwidth'],
-    orderUrl: `${SUPPORT_ORIGIN}/index.php?rp=/store/best-plan-real-cloud/bd-cloud-3`,
+    id: '527',
+    name: 'Vibe Pro',
+    prices: {
+      monthly: '525.000 đ',
+      quarterly: '1.417.500 đ',
+      annually: '1.890.000 đ',
+      biennially: '3.402.000 đ',
+      triennially: '4.536.000 đ',
+    },
+    specs: ['4 vCore', '8 GB RAM', '50 GB SSD NVMe', '1 IPv4 Private', '300Mbps Network Port', 'Unlimited Bandwidth'],
   },
 ];
 
@@ -39,87 +51,84 @@ function decodeHtml(value = '') {
     .replace(/&gt;/gi, '>');
 }
 
-function cleanText(value = '') {
-  return decodeHtml(value.replace(/<[^>]*>/g, ' '))
-    .replace(/\s+/g, ' ')
-    .trim();
+function parseSpecs(description = '') {
+  return decodeHtml(description.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]*>/g, ''))
+    .split(/\r?\n/)
+    .map((line) => line.replace(/\s+/g, ' ').trim())
+    .filter((line) => line && !/gia hạn/i.test(line));
 }
 
-function normalizePrice(value = '') {
-  return cleanText(value).replace(/,/g, '.');
+function formatPrice(value) {
+  const amount = Number(value);
+  if (!Number.isFinite(amount) || amount < 0) return null;
+  return `${new Intl.NumberFormat('vi-VN').format(amount)} đ`;
 }
 
-function absoluteUrl(value = '') {
-  if (!value) return CLOUD_PLANS_URL;
-  return new URL(decodeHtml(value), SUPPORT_ORIGIN).toString();
+function getOrderUrl(id, billingCycle = 'monthly') {
+  return `${SUPPORT_ORIGIN}/cart.php?a=add&pid=${id}&billingcycle=${billingCycle}`;
 }
 
-export function parseCloudPlans(html) {
-  const productPattern =
-    /<div[^>]+class="tt-single-product[^"]*"[^>]+id="product(?<id>\d+)"[^>]*>(?<body>[\s\S]*?)<a[^>]+href="(?<url>[^"]+)"[^>]+id="product\k<id>-order-button"[^>]*>/gi;
+export function parseCloudPlans(payload) {
+  if (!payload?.success || !Array.isArray(payload.products)) return [];
 
-  return [...html.matchAll(productPattern)]
-    .map((match) => {
-      const { id, body, url } = match.groups;
-      const name = cleanText(
-        body.match(new RegExp(`id="product${id}-name"[^>]*>([\\s\\S]*?)<\\/h5>`, 'i'))?.[1],
-      );
-      const price = normalizePrice(
-        body.match(/<span[^>]+class="price"[^>]*>([\s\S]*?)<\/span>/i)?.[1],
-      );
-      const billingCycle = cleanText(
-        body.match(/<span[^>]+class="text-muted mb-0 tt-cycle"[^>]*>([\s\S]*?)<\/span>/i)?.[1],
-      );
-      const descriptionHtml =
-        body.match(new RegExp(`id="product${id}-description"[^>]*>([\\s\\S]*?)<\\/div>`, 'i'))?.[1] ?? '';
-      const descriptionLines = descriptionHtml
-        .replace(/<br\s*\/?>/gi, '\n')
-        .split('\n')
-        .map(cleanText)
-        .filter(Boolean);
-      const specs = descriptionLines.filter((line) => !/gia hạn/i.test(line));
+  return payload.products
+    .map((product) => {
+      const pricing = product.pricing?.VND ?? {};
+      const prices = {
+        monthly: formatPrice(pricing.monthly),
+        quarterly: formatPrice(pricing.quarterly),
+        annually: formatPrice(pricing.annually),
+        biennially: formatPrice(pricing.biennially),
+        triennially: formatPrice(pricing.triennially),
+      };
 
       return {
-        id,
-        name,
-        price,
-        billingCycle,
-        specs,
-        orderUrl: absoluteUrl(url),
+        id: String(product.pid ?? ''),
+        name: product.name?.trim() ?? '',
+        prices,
+        price: prices.monthly,
+        billingCycle: '1 tháng',
+        specs: parseSpecs(product.description),
+        orderUrl: getOrderUrl(product.pid),
       };
     })
-    .filter((plan) => plan.name && plan.price && plan.specs.length);
+    .filter((plan) => plan.id && plan.name && plan.prices.monthly && plan.specs.length);
 }
 
 export async function getCloudPlans() {
   try {
-    const response = await fetch(CLOUD_PLANS_URL, {
+    const response = await fetch(CLOUD_PLANS_API_URL, {
       headers: {
-        Accept: 'text/html,application/xhtml+xml',
+        Accept: 'application/json',
         'User-Agent': 'InterData-VPS-Vibe-Code/1.0',
       },
       next: { revalidate: 3600 },
     });
 
     if (!response.ok) {
-      throw new Error(`WHMCS responded with ${response.status}`);
+      throw new Error(`InterData pricing API responded with ${response.status}`);
     }
 
-    const plans = parseCloudPlans(await response.text());
+    const plans = parseCloudPlans(await response.json());
     if (!plans.length) {
-      throw new Error('No cloud plans found in WHMCS response');
+      throw new Error('No VPS Vibe Coding plans found in pricing API');
     }
 
     return {
       plans,
-      source: CLOUD_PLANS_URL,
+      source: CLOUD_PLANS_API_URL,
       isFallback: false,
     };
   } catch (error) {
-    console.error('Unable to refresh InterData cloud plans:', error);
+    console.error('Unable to refresh InterData VPS Vibe Coding plans:', error);
     return {
-      plans: fallbackPlans,
-      source: CLOUD_PLANS_URL,
+      plans: fallbackPlans.map((plan) => ({
+        ...plan,
+        price: plan.prices.monthly,
+        billingCycle: '1 tháng',
+        orderUrl: getOrderUrl(plan.id),
+      })),
+      source: CLOUD_PLANS_API_URL,
       isFallback: true,
     };
   }
