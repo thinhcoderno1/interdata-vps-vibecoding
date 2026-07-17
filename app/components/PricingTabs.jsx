@@ -5,10 +5,10 @@ import { useState } from 'react';
 const SUPPORT_ORIGIN = 'https://support.interdata.vn';
 const BILLING_CYCLES = [
   { key: 'monthly', label: '1 tháng' },
-  { key: 'quarterly', label: '3 tháng' },
-  { key: 'annually', label: '1 năm' },
-  { key: 'biennially', label: '2 năm' },
-  { key: 'triennially', label: '3 năm' },
+  { key: 'quarterly', label: '3 tháng', discount: '-10%' },
+  { key: 'annually', label: '1 năm', discount: '-70%' },
+  { key: 'biennially', label: '2 năm', discount: '-73%' },
+  { key: 'triennially', label: '3 năm', discount: '-76%' },
 ];
 
 function getOrderUrl(planId, billingCycle) {
@@ -18,6 +18,7 @@ function getOrderUrl(planId, billingCycle) {
 export default function PricingTabs({ plans }) {
   const [activeCycle, setActiveCycle] = useState('monthly');
   const activeCycleLabel = BILLING_CYCLES.find((cycle) => cycle.key === activeCycle)?.label;
+  const showAnnualOffer = activeCycle === 'monthly' || activeCycle === 'quarterly';
 
   return (
     <>
@@ -31,7 +32,8 @@ export default function PricingTabs({ plans }) {
             aria-selected={activeCycle === cycle.key}
             onClick={() => setActiveCycle(cycle.key)}
           >
-            {cycle.label}
+            <span>{cycle.label}</span>
+            {cycle.discount && <small className="pricing-discount">{cycle.discount}</small>}
           </button>
         ))}
       </div>
@@ -48,6 +50,15 @@ export default function PricingTabs({ plans }) {
               <strong>{plan.prices[activeCycle]}</strong>
               <small>/ {activeCycleLabel}</small>
             </div>
+            {showAnnualOffer && (
+              <div className="annual-price-highlight">
+                <div>
+                  <small>Mua 1 năm chỉ</small>
+                  <strong>{plan.prices.annually}</strong>
+                </div>
+                <span>-70%</span>
+              </div>
+            )}
             <a
               className={`btn ${index === 1 ? 'primary' : 'secondary'}`}
               href={getOrderUrl(plan.id, activeCycle)}
