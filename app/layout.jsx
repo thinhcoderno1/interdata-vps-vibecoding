@@ -8,9 +8,9 @@ const faviconUrl = `${siteUrl}/assets/favicon.ico`;
 const logoUrl = `${siteUrl}/assets/LogoNewSlogan-09.png`;
 const ogImageUrl = `${siteUrl}/assets/og-images/interdata-og-image.jpg`;
 
-const title = 'VPS Vibe Coding: Dựng Website Bằng AI | InterData';
+const title = 'VPS Vibe Coding: Nơi Hiện Thực Hóa Ý Tưởng Với AI';
 const description =
-  'Thuê VPS Vibe Coding cài sẵn EzyPlatform tại InterData. Mô tả ý tưởng bằng tiếng Việt, AI hỗ trợ dựng website và ứng dụng trên hạ tầng VPS ổn định 24/7.';
+  'Thuê VPS Vibe Coding [Tiết kiệm đến 80%] cài sẵn EzyPlatform. Mô tả ý tưởng bằng tiếng Việt, AI hỗ trợ dựng website và ứng dụng trên hạ tầng VPS ổn định 24/7.';
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
