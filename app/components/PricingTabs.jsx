@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 
-const SUPPORT_ORIGIN = 'https://support.interdata.vn';
 const BILLING_CYCLES = [
   { key: 'monthly', label: '1 tháng' },
   { key: 'quarterly', label: '3 tháng', discount: '-10%' },
@@ -11,8 +10,9 @@ const BILLING_CYCLES = [
   { key: 'triennially', label: '3 năm', discount: '-76%' },
 ];
 
-function getOrderUrl(planId, billingCycle) {
-  return `${SUPPORT_ORIGIN}/cart.php?a=add&pid=${encodeURIComponent(planId)}&billingcycle=${billingCycle}`;
+function getOrderUrl(productUrl, billingCycle) {
+  const separator = productUrl.includes('?') ? '&' : '?';
+  return `${productUrl}${separator}billingcycle=${billingCycle}`;
 }
 
 export default function PricingTabs({ plans }) {
@@ -61,7 +61,7 @@ export default function PricingTabs({ plans }) {
             )}
             <a
               className={`btn ${index === 1 ? 'primary' : 'secondary'}`}
-              href={getOrderUrl(plan.id, activeCycle)}
+              href={getOrderUrl(plan.productUrl, activeCycle)}
               target="_blank"
               rel="noreferrer"
             >
